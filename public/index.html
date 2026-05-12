@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MAGI SYSTEM</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div>
+            <p class="eyebrow">PERSONALITY TRANSPLANT OS / DECISION BY MAJORITY</p>
+            <h1>MAGI SYSTEM</h1>
+          </div>
+        </div>
+        <div class="status-strip" aria-live="polite">
+          <span class="status-dot" id="statusDot"></span>
+          <span id="statusText">同期中</span>
+        </div>
+      </header>
+
+      <main class="dashboard">
+        <section class="input-zone" aria-labelledby="consoleTitle">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">CENTRAL DOGMA INPUT</p>
+              <h2 id="consoleTitle">審議対象</h2>
+            </div>
+            <button class="icon-button" id="sampleButton" type="button" title="サンプルを入力" aria-label="サンプルを入力">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 4h16v5H4z"></path>
+                <path d="M4 13h7v7H4z"></path>
+                <path d="M15 13h5v7h-5z"></path>
+              </svg>
+            </button>
+          </div>
+
+          <form id="councilForm">
+            <label class="field">
+              <span>議題</span>
+              <textarea
+                id="questionInput"
+                rows="6"
+                maxlength="1400"
+                placeholder="例: 新しい個人アプリを週末だけで作るべきか？"
+              ></textarea>
+            </label>
+
+            <label class="field compact">
+              <span>補足条件</span>
+              <input
+                id="contextInput"
+                type="text"
+                maxlength="300"
+                placeholder="期限、予算、迷っている点など"
+              />
+            </label>
+
+            <div class="command-row">
+              <button class="primary-button" id="runButton" type="submit">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h11"></path>
+                  <path d="m12 5 7 7-7 7"></path>
+                </svg>
+                <span>決議開始</span>
+              </button>
+              <button class="ghost-button" id="clearButton" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M3 6h18"></path>
+                  <path d="M8 6V4h8v2"></path>
+                  <path d="M7 10v10h10V10"></path>
+                </svg>
+                <span>クリア</span>
+              </button>
+            </div>
+          </form>
+
+          <div class="meter-grid" aria-label="決議カウンター">
+            <div>
+              <span>承認</span>
+              <strong id="approveCount">0</strong>
+            </div>
+            <div>
+              <span>否定</span>
+              <strong id="denyCount">0</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="core-zone" aria-label="MAGI合議コア">
+          <div class="core-stage" id="coreStage">
+            <div class="magi-frame">
+              <div class="magi-title">MAGI</div>
+              <div class="magi-grid">
+                <span>ROMANTIC</span>
+                <span>RATIONAL</span>
+                <span>ENTERTAINER</span>
+              </div>
+              <div class="magi-bars" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+            <div class="core-caption">
+              <span id="decisionLabel">決議待機</span>
+              <strong id="scoreLabel">--</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="result-zone" aria-labelledby="resultTitle">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">FINAL RESOLUTION</p>
+              <h2 id="resultTitle">最終決議</h2>
+            </div>
+            <div class="model-pill" id="modelPill">demo-fallback</div>
+          </div>
+          <div class="verdict" id="verdict">
+            <p class="verdict-tone">審議対象を待機しています</p>
+            <p class="verdict-summary">三人格は未接続。審議対象を入力すると、各AIが承認または否定を提出します。</p>
+          </div>
+          <ol class="next-steps" id="nextSteps" aria-label="次の一手"></ol>
+        </section>
+
+        <section class="persona-grid" aria-label="人格別判定">
+          <article class="persona-card romantic" id="romanticCard">
+            <div class="card-top">
+              <div>
+                <p class="eyebrow">CORE 01</p>
+                <h3>ROMANTIC</h3>
+              </div>
+              <span class="vote">待機</span>
+            </div>
+            <div class="persona-score"><span></span></div>
+            <p class="headline">ロマンチストとしての人格</p>
+            <ul></ul>
+            <p class="risk"></p>
+            <p class="line"></p>
+          </article>
+
+          <article class="persona-card rational" id="rationalCard">
+            <div class="card-top">
+              <div>
+                <p class="eyebrow">CORE 02</p>
+                <h3>RATIONAL</h3>
+              </div>
+              <span class="vote">待機</span>
+            </div>
+            <div class="persona-score"><span></span></div>
+            <p class="headline">理性としての人格</p>
+            <ul></ul>
+            <p class="risk"></p>
+            <p class="line"></p>
+          </article>
+
+          <article class="persona-card entertainer" id="entertainerCard">
+            <div class="card-top">
+              <div>
+                <p class="eyebrow">CORE 03</p>
+                <h3>ENTERTAINER</h3>
+              </div>
+              <span class="vote">待機</span>
+            </div>
+            <div class="persona-score"><span></span></div>
+            <p class="headline">エンターテイナーとしての人格</p>
+            <ul></ul>
+            <p class="risk"></p>
+            <p class="line"></p>
+          </article>
+        </section>
+
+        <section class="log-zone" aria-labelledby="logTitle">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">SESSION LOG</p>
+              <h2 id="logTitle">判定ログ</h2>
+            </div>
+          </div>
+          <div class="log-list" id="logList">
+            <p>システム起動。三人格を待機状態へ移行。</p>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="/app.js"></script>
+  </body>
+</html>

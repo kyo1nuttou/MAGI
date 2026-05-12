@@ -493,25 +493,45 @@ input:focus {
   min-height: 486px;
 }
 
+.result-zone .model-pill {
+  display: none;
+}
+
 .verdict {
   margin-top: 16px;
   padding: 14px;
   border: 2px solid var(--line-dim);
   background: #080808;
+  min-height: 180px;
+  display: grid;
+  place-items: center;
 }
 
 .verdict-tone {
-  margin-bottom: 10px;
+  margin-bottom: 0;
   color: var(--red);
   font-size: clamp(1.45rem, 2.4vw, 2.2rem);
   font-weight: 900;
   line-height: 1.05;
+  text-align: center;
 }
 
-.verdict-summary {
-  margin-bottom: 0;
-  color: var(--text);
-  line-height: 1.7;
+.verdict-decision {
+  font-size: clamp(4rem, 9vw, 8rem);
+  letter-spacing: 0;
+  text-shadow: 4px 4px 0 #000, 0 0 22px currentColor;
+}
+
+.verdict-decision.passed {
+  color: var(--approve);
+}
+
+.verdict-decision.rejected {
+  color: var(--red);
+}
+
+.verdict-standby {
+  color: var(--orange);
 }
 
 .next-steps {
@@ -540,7 +560,7 @@ input:focus {
 .persona-card {
   display: grid;
   gap: 12px;
-  min-height: 360px;
+  min-height: 520px;
   padding: 14px;
   position: relative;
   overflow: hidden;
@@ -622,6 +642,61 @@ input:focus {
   color: #120302;
   border-color: var(--orange);
   background: var(--orange);
+}
+
+.avatar-stage {
+  position: relative;
+  width: 100%;
+  min-height: 190px;
+  aspect-ratio: 16 / 10;
+  border: 2px solid var(--line-dim);
+  background:
+    linear-gradient(90deg, rgba(255, 50, 31, 0.13) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 50, 31, 0.1) 1px, transparent 1px),
+    #030303;
+  background-size: 18px 18px;
+  overflow: hidden;
+}
+
+.avatar-stage::before,
+.avatar-stage::after {
+  position: absolute;
+  z-index: 1;
+  content: "";
+  pointer-events: none;
+}
+
+.avatar-stage::before {
+  inset: 10px;
+  border: 1px solid currentColor;
+  opacity: 0.35;
+}
+
+.avatar-stage::after {
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.28;
+}
+
+.avatar-stage canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.avatar-stage span {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  z-index: 2;
+  color: currentColor;
+  font-size: 0.74rem;
+  font-weight: 900;
+  text-shadow: 2px 2px 0 #000;
 }
 
 .booting .persona-score span {
@@ -747,9 +822,17 @@ input:focus {
     grid-template-columns: 1fr 1fr;
   }
 
+  .input-zone {
+    order: 1;
+  }
+
   .core-zone {
-    order: 3;
+    order: 2;
     grid-column: 1 / -1;
+  }
+
+  .result-zone {
+    order: 3;
   }
 
   .result-zone {
@@ -757,7 +840,12 @@ input:focus {
   }
 
   .persona-grid {
+    order: 4;
     grid-template-columns: 1fr;
+  }
+
+  .log-zone {
+    order: 5;
   }
 }
 

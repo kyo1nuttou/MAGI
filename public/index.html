@@ -128,10 +128,9 @@
             <div class="model-pill" id="modelPill">demo-fallback</div>
           </div>
           <div class="verdict" id="verdict">
-            <p class="verdict-tone">審議対象を待機しています</p>
-            <p class="verdict-summary">三人格は未接続。審議対象を入力すると、各AIが承認または否定を提出します。</p>
+            <p class="verdict-tone verdict-standby">決議待機</p>
           </div>
-          <ol class="next-steps" id="nextSteps" aria-label="次の一手"></ol>
+          <ol class="next-steps" id="nextSteps" aria-label="次の一手" hidden></ol>
         </section>
 
         <section class="persona-grid" aria-label="人格別判定">
@@ -142,6 +141,10 @@
                 <h3>ROMANTIC</h3>
               </div>
               <span class="vote">待機</span>
+            </div>
+            <div class="avatar-stage" data-avatar="romantic" aria-label="ROMANTIC 3D avatar">
+              <canvas></canvas>
+              <span>MODEL LINK</span>
             </div>
             <div class="persona-score"><span></span></div>
             <p class="headline">ロマンチストとしての人格</p>
@@ -158,6 +161,10 @@
               </div>
               <span class="vote">待機</span>
             </div>
+            <div class="avatar-stage" data-avatar="rational" aria-label="RATIONAL 3D avatar">
+              <canvas></canvas>
+              <span>MODEL LINK</span>
+            </div>
             <div class="persona-score"><span></span></div>
             <p class="headline">理性としての人格</p>
             <ul></ul>
@@ -172,6 +179,10 @@
                 <h3>ENTERTAINER</h3>
               </div>
               <span class="vote">待機</span>
+            </div>
+            <div class="avatar-stage" data-avatar="entertainer" aria-label="ENTERTAINER 3D avatar">
+              <canvas></canvas>
+              <span>MODEL LINK</span>
             </div>
             <div class="persona-score"><span></span></div>
             <p class="headline">エンターテイナーとしての人格</p>
@@ -195,5 +206,6 @@
       </main>
     </div>
     <script src="/app.js"></script>
+    <script type="module" src="/avatar-viewer.mjs"></script>
   </body>
 </html>

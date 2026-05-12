@@ -150,20 +150,11 @@ function renderSynthesis(synthesis) {
   elements.verdict.innerHTML = "";
 
   const tone = document.createElement("p");
-  tone.className = "verdict-tone";
-  tone.textContent = synthesis.tone;
+  tone.className = `verdict-tone verdict-decision ${synthesis.stance === "APPROVE" ? "passed" : "rejected"}`;
+  tone.textContent = synthesis.decision;
 
-  const summary = document.createElement("p");
-  summary.className = "verdict-summary";
-  summary.textContent = synthesis.summary;
-
-  elements.verdict.append(tone, summary);
+  elements.verdict.append(tone);
   elements.nextSteps.replaceChildren();
-  synthesis.nextSteps.forEach((step) => {
-    const item = document.createElement("li");
-    item.textContent = step;
-    elements.nextSteps.append(item);
-  });
 
   setCounts(synthesis.counts);
   if (synthesis.error) {
@@ -250,7 +241,7 @@ elements.clearButton.addEventListener("click", () => {
   elements.decisionLabel.textContent = "決議待機";
   elements.scoreLabel.textContent = "--";
   elements.verdict.innerHTML =
-    '<p class="verdict-tone">審議対象を待機しています</p><p class="verdict-summary">三人格は未接続。審議対象を入力すると、各AIが承認または否定を提出します。</p>';
+    '<p class="verdict-tone verdict-standby">決議待機</p>';
   elements.nextSteps.replaceChildren();
   addLog("入力と判定表示をクリア。");
 });

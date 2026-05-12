@@ -14,10 +14,12 @@ const MIME_TYPES = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css; charset=utf-8",
   ".js": "application/javascript; charset=utf-8",
+  ".mjs": "application/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
   ".svg": "image/svg+xml",
   ".png": "image/png",
   ".ico": "image/x-icon",
+  ".fbx": "application/octet-stream",
 };
 
 const personas = [
@@ -163,7 +165,6 @@ function buildPersonaPrompt(persona, question, context) {
   "headline": "18文字以内の日本語見出し",
   "reasoning": ["理由1", "理由2", "理由3"],
   "risk": "最も注意すべき落とし穴",
-  "proposal": "次に取るべき具体的な一手",
   "line": "人格らしい短い一言"
 }`,
     "stanceは必ずAPPROVEかDENYのどちらかにしてください。保留は禁止です。",
@@ -217,7 +218,6 @@ function normalizePersonaResult(persona, raw) {
     headline: String(raw.headline || "判定完了").slice(0, 28),
     reasoning: reasoning.slice(0, 3).map((item) => String(item).slice(0, 120)),
     risk: String(raw.risk || "前提条件を確認する必要があります。").slice(0, 160),
-    proposal: String(raw.proposal || "小さく試して、結果を見て調整します。").slice(0, 180),
     line: String(raw.line || "").slice(0, 120),
   };
 }
@@ -246,7 +246,6 @@ function fallbackPersona(persona, question, context) {
           : "誰かに見せられる形にすると、願いは現実へ近づきます。",
       ],
       risk: "憧れだけで走ると、疲れた時に理由を見失いやすくなります。",
-      proposal: "まず一晩で作れる最小の形にして、なぜ惹かれるのかを言葉にします。",
       line: "夢を見るなら、戻れる橋も一緒に架けましょう。",
     },
     rational: {
@@ -259,7 +258,6 @@ function fallbackPersona(persona, question, context) {
           : "得られる情報量に対して、初期コストを抑えられます。",
       ],
       risk: "成果の定義が曖昧なまま進むと、続行と中止の判断が遅れます。",
-      proposal: "48時間以内に検証項目を3つ書き、最も安く試せる手段を1つ選びます。",
       line: "熱量は採用。ただし、検証条件を先に置きます。",
     },
     entertainer: {
@@ -272,7 +270,6 @@ function fallbackPersona(persona, question, context) {
           : "小さな公開やデモで、場の温度を測れます。",
       ],
       risk: "面白さを優先しすぎると、相手が本当に欲しいものからズレます。",
-      proposal: "1分で伝わるタイトルとデモを作り、近い人に反応をもらいます。",
       line: "退屈になった瞬間、計画は眠ります。見せ場を置きましょう。",
     },
   };
@@ -297,33 +294,18 @@ function synthesize(question, results, usedAI, error) {
     { APPROVE: 0, DENY: 0 }
   );
   const averageScore = Math.round(results.reduce((sum, result) => sum + result.score, 0) / results.length);
-  const topStance = counts.APPROVE >= 2 ? "APPROVE" : "DENY";
+  const topStance = counts.APPROVE === results.length ? "APPROVE" : "DENY";
+  const decision = topStance === "APPROVE" ? "可決" : "否決";
 
-  const decisionMap = {
-    APPROVE: {
-      label: "決議 承認",
-      tone: "承認。実行条件を満たしました。",
-      summary:
-        "三人格のうち過半数が承認しました。実行へ進めますが、各人格が提示した注意点を条件として扱うのが妥当です。",
-    },
-    DENY: {
-      label: "決議 否定",
-      tone: "否定。現条件での実行は却下されました。",
-      summary:
-        "三人格のうち過半数が否定しました。現案のまま進めるより、条件変更、縮小案、または別案を再投入するべきです。",
-    },
-  };
-
-  const proposals = results.map((result) => result.proposal);
   return {
     question,
-    decision: decisionMap[topStance].label,
-    tone: decisionMap[topStance].tone,
-    summary: decisionMap[topStance].summary,
+    decision,
+    tone: decision,
+    summary: "",
     stance: topStance,
     averageScore,
     counts,
-    nextSteps: proposals,
+    nextSteps: [],
     usedAI,
     model: usedAI ? OPENAI_MODEL : "demo-fallback",
     error: error || "",

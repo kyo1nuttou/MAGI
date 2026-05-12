@@ -1,0 +1,14 @@
+{
+  "name": "magi-system",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Three-persona local decision system with OpenAI API support.",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && node --check public/app.js && node --check public/avatar-viewer.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

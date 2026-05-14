@@ -8,20 +8,6 @@
 
 各人格カードには `public/assets/wireframe-man.fbx` の3Dモデルを割り当てています。Three.js関連ファイルは `public/vendor/three` に同梱しているため、localhost上で表示できます。
 
-## 起動
-
-```bash
-node server.js
-```
-
-ブラウザで `http://localhost:4173` を開きます。
-
-`npm` が使える環境なら、次でも起動できます。
-
-```bash
-npm start
-```
-
 ## OpenAI APIを使う
 
 APIキーを環境変数に入れて起動します。キーはブラウザへ送られず、`server.js` の中だけで使われます。
